@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta charset="UTF-8">
+  <title>Firebase Webduino IM</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
+</head>
+
+<body>
+  <div id="content">
+    <header>Webduino IOT 聊天室
+    </header>
+    <div id="init">
+      <h1>Webduino IOT 聊天室</h1>
+      <span>對應的 Firebase 資料庫名稱</span>
+      <br/>
+      <input type="text" id="init-input">
+      <br/>
+      <span>暱稱</span>
+      <br/>
+      <input type="text" id="init-name-input"  maxlength="4" placeholder="最多四個字">
+      <br/>
+      <button id="init-btn">送出</button>
+      <br/>
+      <i id="init-note"></i>
+    </div>
+    <div id="input">
+      <span id="n">訊息</span> :
+      <input type="text" id="m">
+      <br/>
+      <button id="b">送出</button>
+    </div>
+    <div id="s"></div>
+  </div>
+</body>
+<script src="main.js"></script>
+</html>
