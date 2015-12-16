@@ -35,30 +35,34 @@ $(function() {
   }
 
   sumit.on('click', function() {
-    webduino.BoardEvent.DISCONNECT;
-    localStorage.boardName = deviceId.val();
-    ready.text('Connecting...');
-    boardReady(deviceId.val(), function(board) {
-      ready.text('Board ready!!');
-      board.samplingInterval = 20;
-      matrix = getMax7219(board, 9, 10, 11);
-      matrix.on(code.val());
-      marquee.slideDown(300);
-      btnR.on('click', function() {
-        _marqueeRight(code.val());
+
+    disconnectBoards(function() {
+
+      localStorage.boardName = deviceId.val();
+      ready.text('Connecting...');
+      boardReady(deviceId.val(), function(board) {
+        ready.text('Board ready!!');
+        board.samplingInterval = 20;
+        matrix = getMax7219(board, 9, 10, 11);
+        matrix.on(code.val());
+        marquee.slideDown(300);
+        btnR.on('click', function() {
+          _marqueeRight(code.val());
+        });
+        btnL.on('click', function() {
+          _marqueeLeft(code.val());
+        });
+        btnStop.on('click', function() {
+          matrix.animateStop();
+        });
+        d = 1;
+        board.on('error', function(err) {
+          d = 0;
+          ready.text('Board Error!!!!!!');
+          marquee.slideUp(300);
+        });
       });
-      btnL.on('click', function() {
-        _marqueeLeft(code.val());
-      });
-      btnStop.on('click', function() {
-        matrix.animateStop();
-      });
-      d = 1;
-      board.on('error', function(err) {
-        d = 0;
-        ready.text('Board Error!!!!!!');
-        marquee.slideUp(300);
-      });
+
     });
 
   });
@@ -66,7 +70,7 @@ $(function() {
   $('.b').each(function() {
     $(this).on('click', function() {
       changeCode.val('');
-      var row = $(this).parent('.a').index()-1;
+      var row = $(this).parent('.a').index() - 1;
       var num = 7 - $(this).index();
       var string;
       if ($(this).attr('class').indexOf('click') == -1) {
