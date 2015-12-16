@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MAX7219</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <script src="lib/jquery.min.js"></script>
+  <script src="lib/clipboard.js"></script>
+  <script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
+  <script src="https://webduinoio.github.io/webduino-blockly/webduino-blockly.js"></script>
+  <style>
+  html,body{
+  	margin:0;
+  	padding:0;
+  }
+  header{
+  	width:100%;
+  	margin:0 0 10px;
+  	height:60px;
+  	line-height: 58px;
+  	color:#fff;
+  	font-size:22px;
+  	background:#000;
+  	text-align: center;
+  }
+  span{
+  	font-size:16px;
+  }
+  #br{
+  	height:1px;
+  	display:none;
+  }
+	#code,#deviceId{
+    display: inline-block;
+    font-size: 20px;
+    margin: 10px 0;
+    outline: none;
+  }
+  #code{
+  	margin-top:0;
+  }
+  
+  #code.red {
+    border: 2px solid #f00;
+    box-shadow: #f99 0 0 10px;
+  }
+  
+	button{
+    font-size: 18px;
+    margin-right:0;
+    margin-left:5px;
+	}
+
+  .marquee{
+  	display:none;
+  	margin-bottom:0;
+  }
+
+  #ready{
+  	margin-left:10px;
+  }
+  
+  .content {
+    display: table;
+    margin: 0 auto;
+  }
+  
+  .changeCode {
+    display: inline-block;
+    margin: 5px 5px;
+    outline: none;
+    font-size: 16px;
+  }
+  
+  .matrix {
+  	margin-top:10px;
+    text-align: center;
+  }
+  
+  .box {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-image: url(light.jpg);
+    background-position: 0 0;
+    background-size: auto 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .a {
+    text-align: center;
+    margin: -2px;
+  }
+  
+  .b {
+    width: 100%;
+    display: block;
+    cursor: pointer;
+  }
+  
+  .b:hover {
+    opacity: .7;
+  }
+  
+  .b.click {
+    background-position: -50px 0;
+  }
+  
+  @media (max-width:500px) {
+  	#code,#deviceId{
+  		font-size:18px;
+  	}
+  	button{
+  		font-size:16px;
+  	}
+    .box {
+      width: 45px;
+      height: 45px;
+    }
+    .b.click {
+      background-position: -45px 0;
+    }
+  }
+  
+  @media (max-width:420px) {
+  	header{
+  		height:50px;
+  		line-height: 48px;
+  		font-size:18px;
+  	}
+	  span{
+	  	font-size:14px;
+	  }
+  	#code,#deviceId{
+  		font-size:16px;
+  	}
+  	button{
+  		font-size:15px;
+  	}
+  	.changeCode {
+  		font-size:14px;
+  	}
+    .box {
+      width: 40px;
+      height: 40px;
+    }
+    .b.click {
+      background-position: -40px 0;
+    }
+  }
+  
+  @media (max-width:380px) {
+  	#br{
+  		display:block;
+  	}
+    .box {
+      width: 35px;
+      height: 35px;
+    }
+    .b.click {
+      background-position: -35px 0;
+    }
+  }
+  
+  @media (max-width:340px) {
+  	header{
+  		height:40px;
+  		line-height: 38px;
+  		font-size:15px;
+  	}
+    .box {
+      width: 30px;
+      height: 30px;
+    }
+    .b.click {
+      background-position: -30px 0;
+    }
+  }
+  
+  @media (max-width:320px) {
+  	.matrix{
+			margin-left:-20px;
+  	}
+    .box {
+      width: 27px;
+      height: 27px;
+    }
+    .b.click {
+      background-position: -27px 0;
+    }
+  }
+  
+  @media (max-width:300px) {
+  	.matrix{
+			margin-left:-40px;
+  	}
+    .box {
+      width: 25px;
+      height: 25px;
+    }
+    .b.click {
+      background-position: -25px 0;
+    }
+  }
+  </style>
+</head>
+
+<body>
+	<header>
+		Webduino LED 點矩陣代碼產生器
+	</header>
+  <div class="content">
+    <span>Board：</span><input type="text" id="deviceId" value="" size="5" maxlength="4">
+    <button id="sumit">sumit</button>
+    <span id="ready"></span>
+    <div class="marquee">
+	    <span>跑馬燈：</span><button id="btn-l">往左</button><button id="btn-r">往右</button><button id="btn-stop">停止</button>
+    </div>
+    <br/>
+    <span>代碼：</span><input id="code" value="0000000000000000" size="17" type="text"  maxlength="16">
+    <button id="copy" data-clipboard-target="#code" class="btn">複製</button>
+    <button id="clear">清除</button>
+    <br/>
+    <span>ABC: </span>
+    <select id="en-big" class="changeCode">
+      <option></option>
+      <option value="00fc262226fc0000">A</option>
+      <option value="00fe929292fc0000">B</option>
+      <option value="007cc68282820000">C</option>
+      <option value="00fe8282c67c0000">D</option>
+      <option value="00fe929292920000">E</option>
+      <option value="00fe121212020000">F</option>
+      <option value="00fe829292f20000">G</option>
+      <option value="00fe101010fe0000">H</option>
+      <option value="008282fe82820000">I</option>
+      <option value="00828282fe020000">J</option>
+      <option value="00fe102844820000">K</option>
+      <option value="00fe808080800000">L</option>
+      <option value="00fe02fc02fe0000">M</option>
+      <option value="00fe0c30c0fe0000">N</option>
+      <option value="007cc682c67c0000">O</option>
+      <option value="00fe2222223e0000">P</option>
+      <option value="007cc6a246bc0000">Q</option>
+      <option value="00fe2262e2be0000">R</option>
+      <option value="009e929292f20000">S</option>
+      <option value="000202fe02020000">T</option>
+      <option value="00fe808080fe0000">U</option>
+      <option value="003e60c0603e0000">V</option>
+      <option value="00fe80fe80fe0000">W</option>
+      <option value="00c66c106cc60000">X</option>
+      <option value="000e18f0180e0000">Y</option>
+      <option value="00c2a2928a860000">Z</option>
+    </select>
+    <span>abc: </span>
+    <select id="en-small" class="changeCode">
+      <option></option>
+      <option value="00f08888f8800000">a</option>
+      <option value="00fe9090f0000000">b</option>
+      <option value="00f0909090000000">c</option>
+      <option value="0000f09090fe0000">d</option>
+      <option value="00f8a8a8a8b80000">e</option>
+      <option value="000008fe0a000000">f</option>
+      <option value="0000bca4a4fc0000">g</option>
+      <option value="00fe1010f0000000">h</option>
+      <option value="000000f400000000">i</option>
+      <option value="000080f400000000">j</option>
+      <option value="00fe205088000000">k</option>
+      <option value="000000fe00000000">l</option>
+      <option value="00f010f010f00000">m</option>
+      <option value="00f01010f0000000">n</option>
+      <option value="00f09090f0000000">o</option>
+      <option value="00fc24243c000000">p</option>
+      <option value="003c2424fc800000">q</option>
+      <option value="00f0201000000000">r</option>
+      <option value="00b8a8a8e8000000">s</option>
+      <option value="0004fe8400000000">t</option>
+      <option value="00f08080f0000000">u</option>
+      <option value="0070807000000000">v</option>
+      <option value="00f080f080f00000">w</option>
+      <option value="0088502050880000">x</option>
+      <option value="0000b8a0a0f80000">y</option>
+      <option value="00c8a8a898000000">z</option>
+    </select>
+    <div id="br"></div>
+    <span>123: </span>
+    <select id="num" class="changeCode">
+      <option></option>
+      <option value="0000fe8282fe0000">0</option>
+      <option value="00000082fe800000">1</option>
+      <option value="0000f292929e0000">2</option>
+      <option value="0000929292fe0000">3</option>
+      <option value="00001e1010fe0000">4</option>
+      <option value="00009e9292f20000">5</option>
+      <option value="0000fe9292f20000">6</option>
+      <option value="0000020202fe0000">7</option>
+      <option value="0000fe9292fe0000">8</option>
+      <option value="00009e9292fe0000">9</option>
+      <option value="82fe8000fe82fe00">10</option>
+      <option value="82fe800082fe8000">11</option>
+      <option value="82fe8000f2929e00">12</option>
+      <option value="82fe80009292fe00">13</option>
+      <option value="82fe80001e10fe00">14</option>
+      <option value="82fe80009e92f200">15</option>
+      <option value="82fe8000fe92f200">16</option>
+      <option value="82fe80000202fe00">17</option>
+      <option value="82fe8000fe92fe00">18</option>
+      <option value="82fe80009e92fe00">19</option>
+      <option value="f2929e00fe82fe00">20</option>
+      <option value="f2929e0082fe8000">21</option>
+      <option value="f2929e00f2929e00">22</option>
+      <option value="f2929e009292fe00">23</option>
+      <option value="f2929e001e10fe00">24</option>
+      <option value="f2929e009e92f200">25</option>
+      <option value="f2929e00fe92f200">26</option>
+      <option value="f2929e000202fe00">27</option>
+      <option value="f2929e00fe92fe00">28</option>
+      <option value="f2929e009e92fe00">29</option>
+      <option value="9292fe00fe82fe00">30</option>
+      <option value="9292fe0082fe8000">31</option>
+      <option value="9292fe00f2929e00">32</option>
+      <option value="9292fe009292fe00">33</option>
+      <option value="9292fe001e10fe00">34</option>
+      <option value="9292fe009e92f200">35</option>
+      <option value="9292fe00fe92f200">36</option>
+      <option value="9292fe000202fe00">37</option>
+      <option value="9292fe00fe92fe00">38</option>
+      <option value="9292fe009e92fe00">39</option>
+      <option value="1e10fe00fe82fe00">40</option>
+      <option value="1e10fe0082fe8000">41</option>
+      <option value="1e10fe00f2929e00">42</option>
+      <option value="1e10fe009292fe00">43</option>
+      <option value="1e10fe001e10fe00">44</option>
+      <option value="1e10fe009e92f200">45</option>
+      <option value="1e10fe00fe92f200">46</option>
+      <option value="1e10fe000202fe00">47</option>
+      <option value="1e10fe00fe92fe00">48</option>
+      <option value="1e10fe009e92fe00">49</option>
+      <option value="9e92f200fe82fe00">50</option>
+      <option value="9e92f20082fe8000">51</option>
+      <option value="9e92f200f2929e00">52</option>
+      <option value="9e92f2009292fe00">53</option>
+      <option value="9e92f2001e10fe00">54</option>
+      <option value="9e92f2009e92f200">55</option>
+      <option value="9e92f200fe92f200">56</option>
+      <option value="9e92f2000202fe00">57</option>
+      <option value="9e92f200fe92fe00">58</option>
+      <option value="9e92f2009e92fe00">59</option>
+      <option value="fe92f200fe82fe00">60</option>
+    </select>
+    <span>icon: </span>
+    <select id="face" class="changeCode">
+      <option></option>
+      <option value="1026464040462610">:) 1</option>
+      <option value="ffd3b3bfbfb3d3ff">:) 2</option>
+      <option value="804c2c20202c4c80">:(</option>
+      <option value="316aaaa4a4aa6a31">XD</option>
+      <option value="914a444040444a91">>_
+        <</option>
+          <option value="4525252020252545">=_=</option>
+          <option value="080c0effff0e0c08">↑</option>
+          <option value="103070ffff707010">↓</option>
+          <option value="183c7eff18181818">←</option>
+          <option value="18181818ff7e3c18">→</option>
+          <option value="0c1e3e7c3e1e0c00">♥</option>
+          <option value="0c12224422120c00">♡</option>
+          <option value="3c4281818181423c">○</option>
+          <option value="00292a2cf82c2a29">￥</option>
+          <option value="8142241818244281">Χ</option>
+          <option value="007e424242427e00">□</option>
+          <option value="0814224122140800">◇</option>
+          <option value="004e51f1514e0000">♀</option>
+          <option value="70d888d87905030f">♂</option>
+          <option value="0000007f00000000">︱</option>
+          <option value="0808080808080800">—</option>
+          <option value="4020100804020100">╱</option>
+          <option value="0102040810204000">＼</option>
+          <option value="925438fe38549200">米</option>
+          <option value="82f282fe92929200">正</option>
+          <option value="ff89f79191f789ff">囧</option>
+    </select>
+    <br/>
+    <div class="matrix">
+      <div class="a box">
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+      </div>
+      <div class="a box">
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+      </div>
+      <div class="a box">
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+      </div>
+      <div class="a box">
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+      </div>
+      <div class="a box">
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+      </div>
+      <div class="a box">
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+      </div>
+      <div class="a box">
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+      </div>
+      <div class="a box">
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+        <div class="b box"></div>
+      </div>
+    </div>
+</body>
+<script>
+$(function() {
+
+	var clipboard = new Clipboard('#copy');
+
+  var deviceId = $('#deviceId'),
+    sumit = $('#sumit'),
+    ready = $('#ready'),
+    marquee = $('.marquee'),
+    btnR = $('#btn-r'),
+    btnL = $('#btn-l'),
+    btnStop = $('#btn-stop');
+
+  var matrix,
+    d = 0;
+
+  var matrixArea = $('.matrix'),
+    box = $('.box');
+
+  var code = $('#code'),
+    clear = $('#clear'),
+    changeCode = $('.changeCode'),
+    a = [],
+    b = [],
+    gen;
+
+  for (var i = 0; i < 8; i++) {
+    a[i] = ['0', '0', '0', '0', '0', '0', '0', '0'];
+  }
+  for (var i = 0; i < 8; i++) {
+    b[i] = '00';
+  }
+
+  if(localStorage.boardName){
+  	deviceId.val(localStorage.boardName);
+  }
+
+  sumit.on('click', function() {
+  	webduino.BoardEvent.DISCONNECT;
+  	localStorage.boardName = deviceId.val();
+    ready.text('Connecting...');
+    boardReady(deviceId.val(), function(board) {
+      ready.text('Board ready!!');
+      board.samplingInterval = 20;
+      matrix = getMax7219(board, 9, 10, 11);
+      matrix.on(code.val());
+      marquee.slideDown(300);
+      btnR.on('click',function(){
+      	_marqueeRight(code.val());
+      });
+      btnL.on('click',function(){
+      	_marqueeLeft(code.val());
+      });
+      btnStop.on('click',function(){
+      	matrix.animateStop();
+      });
+      d = 1;
+      board.on('error', function(err) {
+        d = 0;
+        ready.text('Board Error!!!!!!');
+     		marquee.slideUp(300);
+      });
+    });
+
+  });
+
+  $('.b').each(function() {
+    $(this).on('click', function() {
+      changeCode.val('');
+      var row = $(this).parent('.a').index();
+      var num = 7 - $(this).index();
+      var string;
+      if ($(this).attr('class').indexOf('click') == -1) {
+        $(this).addClass('click');
+        a[row][num] = '1';
+      } else {
+        $(this).removeClass('click');
+        a[row][num] = '0';
+      }
+      string = a[row].join().replace(/,/g, '');
+      var t2 = parseInt(string, 2);
+      var t10 = t2.toString(10);
+      var t16 = t2.toString(16);
+      if (t10 * 1 < 16) {
+        t16 = '0' + t16;
+      }
+      b[row] = t16;
+      gen = b.join().replace(/,/g, '');
+      code.val(gen);
+      if (d == 1) {
+        matrix.on(gen);
+  			matrix.animateStop();
+      }
+    });
+  });
+
+  code.on('keyup', function() {
+    if (code.val().length == 16) {
+      code.removeClass('red');
+      _codeGen(code.val());
+      changeCode.val('');
+    } else {
+      code.addClass('red');
+    }
+  });
+
+  clear.on('click', function() {
+    _codeGen('0000000000000000');
+    code.val('0000000000000000');
+    changeCode.val('');
+  });
+
+  changeCode.each(function() {
+    $(this).on('change', function() {
+      var val = $(this).val();
+      changeCode.val('');
+      $(this).val(val);
+      _codeGen(val);
+      code.val(val);
+    });
+  });
+
+  function _codeGen(v) {
+    if (d == 1) {
+      matrix.on(v);
+  		matrix.animateStop();
+    }
+    var v = v;
+    var v16 = [];
+    var v2 = [];
+    var vimg = [];
+    var va = v.split('');
+    for (var n = 0; n < 8; n++) {
+      v16[n] = va[n * 2] + va[n * 2 + 1];
+    }
+    for (var m = 0; m < 8; m++) {
+      var qq = parseInt(v16[m], 16);
+      v2[m] = qq.toString(2);
+      if (v2[m].length < 8) {
+        var ml = 8 - v2[m].length;
+        for (var o = 0; o < ml; o++) {
+          v2[m] = '0' + v2[m];
+        }
+      }
+    }
+    for (var n = 0; n < 8; n++) {
+      vimg[n] = v2[n].split('');
+      a[n] = vimg[n];
+      for (var m = 0; m < 8; m++) {
+        if (vimg[n][m] == 1) {
+          $('.a').eq(n).find('.b').eq(7 - m).addClass('click');
+        } else {
+          if ($('.a').eq(n).find('.b').eq(7 - m).hasClass('click')) {
+            $('.a').eq(n).find('.b').eq(7 - m).removeClass('click');
+          }
+        }
+      }
+    }
+    b = v16;
+    gen = v;
+  }
+
+  function _marqueeLeft(v){
+  	matrix.animateStop();
+  	var m1 = v;
+		var m2 = m1.split("");
+		var m3 = [];
+		for(var mi=0; mi<m1.length/2; mi++){
+		  mm(mi);
+		}
+		function mm(j){
+		  var m4=m2.splice(0,2);
+		  m2.push(m4[0],m4[1]);
+		  m3[j] = m2.join("");
+		}
+		matrix.animate(m3,100);
+  } 
+
+  function _marqueeRight(v){
+  	matrix.animateStop();
+  	var m1 = v;
+		var m2 = m1.split("");
+		var m3 = [];
+		for(var mi=0; mi<m1.length/2; mi++){
+		  mm(mi);
+		}
+		function mm(j){
+		  var m4=m2.splice((m1.length-2),m1.length);
+		  m2.unshift(m4[0],m4[1]);
+		  m3[j] = m2.join("");
+		}
+		matrix.animate(m3,100);
+  } 
+});
+</script>
+
+</html>
