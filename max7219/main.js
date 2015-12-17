@@ -11,6 +11,8 @@ $(function() {
     btnStop = $('#btn-stop');
 
   var matrix,
+    timer,
+    t = 0,
     d = 0;
 
   var matrixArea = $('.matrix'),
@@ -53,7 +55,9 @@ $(function() {
           _marqueeLeft(code.val());
         });
         btnStop.on('click', function() {
-          matrix.animateStop();
+          //matrix.animateStop();
+          clearTimeout(timer);
+          t=0;
         });
         d = 1;
         board.on('error', function(err) {
@@ -164,7 +168,9 @@ $(function() {
   }
 
   function _marqueeLeft(v) {
-    matrix.animateStop();
+    //matrix.animateStop();
+    clearTimeout(timer);
+    t=0;
     var m1 = v;
     var m2 = m1.split("");
     var m3 = [];
@@ -177,11 +183,29 @@ $(function() {
       m2.push(m4[0], m4[1]);
       m3[j] = m2.join("");
     }
-    matrix.animate(m3, 100);
+
+    mmm();
+    function mmm(){
+      if(t<8){
+        //matrix.on(m3[t]);
+        _codeGen(m3[t]);
+        code.val(m3[t]);
+        t=t+1;
+        timer = setTimeout(mmm,100);
+      }
+      else{
+        t=0;
+        mmm();
+      }
+    }
+
+    //matrix.animate(m3, 100);
   }
 
   function _marqueeRight(v) {
-    matrix.animateStop();
+    //matrix.animateStop();
+    clearTimeout(timer);
+    t=0;
     var m1 = v;
     var m2 = m1.split("");
     var m3 = [];
@@ -194,6 +218,22 @@ $(function() {
       m2.unshift(m4[0], m4[1]);
       m3[j] = m2.join("");
     }
-    matrix.animate(m3, 100);
+
+    mmm();
+    function mmm(){
+      if(t<8){
+        //matrix.on(m3[t]);
+        _codeGen(m3[t]);
+        code.val(m3[t]);
+        t=t+1;
+        timer = setTimeout(mmm,100);
+      }
+      else{
+        t=0;
+        mmm();
+      }
+    }
+
+    //matrix.animate(m3, 100);
   }
 });
