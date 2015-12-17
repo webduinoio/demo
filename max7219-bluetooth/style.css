@@ -1,0 +1,220 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  width: 100%;
+  margin: 0 0 10px;
+  height: 60px;
+  line-height: 58px;
+  color: #fff;
+  font-size: 22px;
+  background: #000;
+  text-align: center;
+}
+
+span {
+  font-size: 16px;
+}
+
+#br {
+  height: 1px;
+  display: none;
+}
+
+#code,
+#deviceId {
+  display: inline-block;
+  font-size: 20px;
+  margin: 10px 0;
+  outline: none;
+}
+
+#code {
+  margin-top: 0;
+}
+
+#code.red {
+  border: 2px solid #f00;
+  box-shadow: #f99 0 0 10px;
+}
+
+button {
+  font-size: 18px;
+  margin-right: 0;
+  margin-left: 5px;
+  padding: 2px 4px;
+  background: #eee;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  outline: none;
+}
+
+button:active {
+  background: #ddd;
+}
+
+.marquee {
+  display: none;
+  margin-bottom: 0;
+}
+
+#ready {
+  margin-left: 10px;
+}
+
+.content {
+  display: table;
+  margin: 0 auto;
+}
+
+.changeCode {
+  display: inline-block;
+  margin: 5px 5px;
+  outline: none;
+  font-size: 16px;
+}
+
+.matrix {
+  position: relative;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.qrcode {
+  width: 200px;
+  position: absolute;
+  top: 0;
+  right: -220px;
+  font-size: 15px;
+  line-height: 20px;
+}
+.qrcode img{
+  margin-top:5px;
+}
+
+.box {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-image: url(light.jpg);
+  background-position: 0 0;
+  background-size: auto 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.a {
+  text-align: center;
+  margin: -2px;
+}
+
+.b {
+  width: 100%;
+  display: block;
+  cursor: pointer;
+}
+
+.b:hover {
+  opacity: .7;
+}
+
+.b.click {
+  background-position: -50px 0;
+}
+
+@media (max-width:1000px) {
+  .qrcode{
+    display:none;
+  }
+}
+@media (max-width:500px) {
+  #code,
+  #deviceId {
+    font-size: 18px;
+  }
+  button {
+    font-size: 16px;
+  }
+  .box {
+    width: 45px;
+    height: 45px;
+  }
+  .b.click {
+    background-position: -45px 0;
+  }
+}
+
+@media (max-width:420px) {
+  header {
+    height: 50px;
+    line-height: 48px;
+    font-size: 18px;
+  }
+  span {
+    font-size: 14px;
+  }
+  #code,
+  #deviceId {
+    font-size: 16px;
+  }
+  button {
+    font-size: 15px;
+  }
+  .changeCode {
+    font-size: 14px;
+  }
+  .box {
+    width: 40px;
+    height: 40px;
+  }
+  .b.click {
+    background-position: -40px 0;
+  }
+}
+
+@media (max-width:380px) {
+  #br {
+    display: block;
+  }
+  .box {
+    width: 35px;
+    height: 35px;
+  }
+  .b.click {
+    background-position: -35px 0;
+  }
+}
+
+@media (max-width:340px) {
+  header {
+    height: 40px;
+    line-height: 38px;
+    font-size: 15px;
+  }
+  .content {
+    margin: 0 10px;
+  }
+  span {
+    font-size: 14px;
+  }
+  #code,
+  #deviceId {
+    font-size: 14px;
+  }
+  button {
+    font-size: 14px;
+  }
+  .changeCode {
+    font-size: 13px;
+  }
+  .box {
+    width: 30px;
+    height: 30px;
+  }
+  .b.click {
+    background-position: -30px 0;
+  }
+}
