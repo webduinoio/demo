@@ -1,0 +1,182 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  background:url(bg.jpg);
+  background-size:cover;
+}
+
+header {
+  width: 100%;
+  margin: 0 0 10px;
+  height: 100px;
+  line-height: 98px;
+  color: #fff;
+  font-size: 26px;
+  background: #000;
+  text-align: center;
+}
+
+span {
+  font-size: 16px;
+}
+
+#words{
+  font-size:24px;
+  display:block;
+  margin:0 auto;
+  text-align: center;
+  position:relative;
+  color:#eb9;
+  font-weight: normal;
+}
+
+#br {
+  height: 1px;
+  display: none;
+}
+
+#code,
+#deviceId {
+  display: inline-block;
+  font-size: 20px;
+  margin: 10px 0;
+  outline: none;
+  background:#b40;
+  border:1px solid #600;
+  color:#fff;
+  padding:3px 0 3px 8px;
+  box-shadow:inset #000 0 0 5px;
+}
+
+#note{
+  width:640px;
+  text-align: center;
+  color:#edd;
+}
+
+#code {
+  margin-top: 0;
+}
+
+#code.red {
+  border: 2px solid #f00;
+  box-shadow: #f99 0 0 10px;
+}
+
+#c{
+  font-family: 'verdana';
+  font-weight: normal;
+  font-size:16px;
+  color:#c99;
+}
+
+#sumit{
+  background:#daa;
+  border:none;
+  padding:3px 10px;
+}
+
+button {
+  font-size: 18px;
+  margin-right: 0;
+  margin-left: 5px;
+  padding: 2px 4px;
+  background: #eee;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  outline: none;
+}
+
+button:active {
+  background: #ddd;
+}
+
+.marquee {
+  display: none;
+  margin-bottom: 0;
+}
+
+#image{
+  width:640px;
+  height:480px;
+  background-size:100% auto;
+  background-image: url(img.jpg);
+  background-position:0 0;
+  cursor:pointer;
+  position:relative;
+  box-shadow:#200 0 0 100px;
+}
+
+.no{
+  opacity:.5;
+}
+
+
+#ready {
+  margin-left: 10px;
+}
+
+.content {
+  display: table;
+  margin: 0 auto;
+}
+
+.changeCode {
+  display: inline-block;
+  margin: 5px 5px;
+  outline: none;
+  font-size: 16px;
+}
+
+.matrix {
+  position: relative;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.qrcode {
+  width: 200px;
+  position: absolute;
+  top: 0;
+  right: -200px;
+  font-size: 15px;
+  line-height: 20px;
+}
+.qrcode img{
+  margin-top:5px;
+}
+
+.box {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-image: url(light.jpg);
+  background-position: 0 0;
+  background-size: auto 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.a {
+  text-align: center;
+  margin: -2px;
+}
+
+.b {
+  width: 100%;
+  display: block;
+  cursor: pointer;
+}
+
+.b:hover {
+  opacity: .7;
+}
+
+.b.click {
+  background-position: -50px 0;
+}
+
