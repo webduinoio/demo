@@ -115,6 +115,14 @@ button:active {
   opacity:.5;
 }
 
+h3{
+  font-size:18px;
+  font-weight: normal;
+}
+
+h3 a{
+  color:#d90;
+}
 
 #ready {
   margin-left: 10px;
