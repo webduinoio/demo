@@ -38,7 +38,6 @@ $(function() {
 
   sumit.on('click', function() {
 
-    disconnectBoards(function() {
 
       localStorage.boardName = deviceId.val();
       ready.text('Connecting...');
@@ -67,7 +66,6 @@ $(function() {
         });
       });
 
-    });
 
   });
 
