@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
   <meta charset="UTF-8">
@@ -13,20 +13,20 @@
 </head>
 
 <body>
-	<header>
+	<header data-i18n="WEBDUINO_LED_MATRIX_CODE_GENERATOR">
 		Webduino LED 點矩陣代碼產生器
 	</header>
   <div class="content">
-    <span>Board：</span><input type="text" id="deviceId" value="" size="5" maxlength="4">
-    <button id="sumit">送出</button>
+    <span data-i18n="BOARD">Board：</span><input type="text" id="deviceId" value="" size="5" maxlength="4">
+    <button id="sumit" data-i18n="SUBMIT">送出</button>
     <span id="ready"></span>
     <div class="marquee">
-	    <span>跑馬燈：</span><button id="btn-l">往左</button><button id="btn-r">往右</button><button id="btn-stop">停止</button>
+	    <span data-i18n="MARQUEE">跑馬燈：</span><button id="btn-l">往左</button><button id="btn-r">往右</button><button id="btn-stop">停止</button>
     </div>
     <br/>
-    <span>代碼：</span><input id="code" value="0000000000000000" size="17" type="text"  maxlength="16">
-    <button id="copy" data-clipboard-target="#code" class="btn">複製</button>
-    <button id="clear">清除</button>
+    <span data-i18n="CODE">代碼：</span><input id="code" value="0000000000000000" size="17" type="text"  maxlength="16">
+    <button id="copy" data-clipboard-target="#code" class="btn" data-i18n="COPY">複製</button>
+    <button id="clear" data-i18n="CLEAR">清除</button>
     <br/>
     <span>ABC: </span>
     <select id="en-big" class="changeCode">
@@ -154,41 +154,40 @@
       <option value="9e92f2009e92fe00">59</option>
       <option value="fe92f200fe82fe00">60</option>
     </select>
-    <span>icon: </span>
+    <span data-i18n="ICON">icon: </span>
     <select id="face" class="changeCode">
       <option></option>
       <option value="1026464040462610">:) 1</option>
       <option value="ffd3b3bfbfb3d3ff">:) 2</option>
       <option value="804c2c20202c4c80">:(</option>
       <option value="316aaaa4a4aa6a31">XD</option>
-      <option value="914a444040444a91">>_
-        <</option>
-          <option value="4525252020252545">=_=</option>
-          <option value="080c0effff0e0c08">↑</option>
-          <option value="103070ffff707010">↓</option>
-          <option value="183c7eff18181818">←</option>
-          <option value="18181818ff7e3c18">→</option>
-          <option value="0c1e3e7c3e1e0c00">♥</option>
-          <option value="0c12224422120c00">♡</option>
-          <option value="3c4281818181423c">○</option>
-          <option value="00292a2cf82c2a29">￥</option>
-          <option value="8142241818244281">Χ</option>
-          <option value="007e424242427e00">□</option>
-          <option value="0814224122140800">◇</option>
-          <option value="004e51f1514e0000">♀</option>
-          <option value="70d888d87905030f">♂</option>
-          <option value="0000007f00000000">︱</option>
-          <option value="0808080808080800">—</option>
-          <option value="4020100804020100">╱</option>
-          <option value="0102040810204000">＼</option>
-          <option value="925438fe38549200">米</option>
-          <option value="82f282fe92929200">正</option>
-          <option value="ff89f79191f789ff">囧</option>
+      <option value="914a444040444a91">>_<</option>
+      <option value="4525252020252545">=_=</option>
+      <option value="080c0effff0e0c08">↑</option>
+      <option value="103070ffff707010">↓</option>
+      <option value="183c7eff18181818">←</option>
+      <option value="18181818ff7e3c18">→</option>
+      <option value="0c1e3e7c3e1e0c00">♥</option>
+      <option value="0c12224422120c00">♡</option>
+      <option value="3c4281818181423c">○</option>
+      <option value="00292a2cf82c2a29">￥</option>
+      <option value="8142241818244281">Χ</option>
+      <option value="007e424242427e00">□</option>
+      <option value="0814224122140800">◇</option>
+      <option value="004e51f1514e0000">♀</option>
+      <option value="70d888d87905030f">♂</option>
+      <option value="0000007f00000000">︱</option>
+      <option value="0808080808080800">—</option>
+      <option value="4020100804020100">╱</option>
+      <option value="0102040810204000">＼</option>
+      <option value="925438fe38549200">米</option>
+      <option value="82f282fe92929200">正</option>
+      <option value="ff89f79191f789ff">囧</option>
     </select>
     <br/>
     <div class="matrix">
     	<div class="qrcode">
-    		掃瞄 QRCode<br/>使用手機操作<br/>
+    		<span data-i18n="SCAN_QRCODE">掃瞄 QRCode</span><br/><span data-i18n="TO_USE_ON_MOBILE">使用手機操作</span><br/>
     		<img src="qrcode.jpg">
     	</div>
       <div class="a box">
@@ -273,6 +272,7 @@
       </div>
     </div>
 </body>
+<script src="i18next.min.js"></script>
 <script src="main.js"></script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
