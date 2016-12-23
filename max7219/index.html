@@ -5,283 +5,335 @@
   <meta charset="UTF-8">
   <title>MAX7219</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .form-control {
+      width: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header data-i18n="WEBDUINO_LED_MATRIX_CODE_GENERATOR">
+    Webduino LED 點矩陣代碼產生器
+  </header>
+
+  <div class="content">
+
+    <div class="form-inline">
+      <div class="form-group">
+        <label data-i18n="BOARD" for="deviceId">Board：</label>
+        <input type="text" id="deviceId" class="form-control" value="" size="5" maxlength="4">
+      </div>
+      <button id="connect_btn" class="btn" data-i18n="CONNECT">連線</button>
+      <span id="ready" class="text-primary"></span>
+    </div>
+
+    <div class="form-inline">
+      <div class="form-group">
+        <div class="marquee">
+          <label data-i18n="MARQUEE">跑馬燈：</label>
+          <button id="btn-l" class="btn" data-i18n="MARQUEE_LEFT">往左</button>
+          <button id="btn-r" class="btn" data-i18n="MARQUEE_RIGHT">往右</button>
+          <button id="btn-stop" class="btn" data-i18n="MARQUEE_STOP">停止</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-inline">
+      <div class="form-group">
+        <label data-i18n="CODE" for="code">代碼：</label>
+        <input id="code" class="form-control" value="0000000000000000" type="text" maxlength="16">
+      </div>
+      <button id="copy" data-clipboard-target="#code" class="btn" data-i18n="COPY">複製</button>
+      <button id="clear" class="btn" data-i18n="RESET">重設</button>
+    </div>
+
+    <p>&nbsp;</p>
+
+    <div class="panel panel-default">
+      <div class="panel-body form-inline">
+
+        <div class="form-group">
+          <label data-i18n="UPPERCASE">大寫字母: </label>
+          <select id="en-big" class="changeCode form-control">
+            <option></option>
+            <option value="00fc262226fc0000">A</option>
+            <option value="00fe929292fc0000">B</option>
+            <option value="007cc68282820000">C</option>
+            <option value="00fe8282c67c0000">D</option>
+            <option value="00fe929292920000">E</option>
+            <option value="00fe121212020000">F</option>
+            <option value="00fe829292f20000">G</option>
+            <option value="00fe101010fe0000">H</option>
+            <option value="008282fe82820000">I</option>
+            <option value="00828282fe020000">J</option>
+            <option value="00fe102844820000">K</option>
+            <option value="00fe808080800000">L</option>
+            <option value="00fe02fc02fe0000">M</option>
+            <option value="00fe0c30c0fe0000">N</option>
+            <option value="007cc682c67c0000">O</option>
+            <option value="00fe2222223e0000">P</option>
+            <option value="007cc6a246bc0000">Q</option>
+            <option value="00fe2262e2be0000">R</option>
+            <option value="009e929292f20000">S</option>
+            <option value="000202fe02020000">T</option>
+            <option value="00fe808080fe0000">U</option>
+            <option value="003e60c0603e0000">V</option>
+            <option value="00fe80fe80fe0000">W</option>
+            <option value="00c66c106cc60000">X</option>
+            <option value="000e18f0180e0000">Y</option>
+            <option value="00c2a2928a860000">Z</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="LOWERCASE">小寫字母: </label>
+          <select id="en-small" class="changeCode form-control">
+            <option></option>
+            <option value="00f08888f8800000">a</option>
+            <option value="00fe9090f0000000">b</option>
+            <option value="00f0909090000000">c</option>
+            <option value="0000f09090fe0000">d</option>
+            <option value="00f8a8a8a8b80000">e</option>
+            <option value="000008fe0a000000">f</option>
+            <option value="0000bca4a4fc0000">g</option>
+            <option value="00fe1010f0000000">h</option>
+            <option value="000000f400000000">i</option>
+            <option value="000080f400000000">j</option>
+            <option value="00fe205088000000">k</option>
+            <option value="000000fe00000000">l</option>
+            <option value="00f010f010f00000">m</option>
+            <option value="00f01010f0000000">n</option>
+            <option value="00f09090f0000000">o</option>
+            <option value="00fc24243c000000">p</option>
+            <option value="003c2424fc800000">q</option>
+            <option value="00f0201000000000">r</option>
+            <option value="00b8a8a8e8000000">s</option>
+            <option value="0004fe8400000000">t</option>
+            <option value="00f08080f0000000">u</option>
+            <option value="0070807000000000">v</option>
+            <option value="00f080f080f00000">w</option>
+            <option value="0088502050880000">x</option>
+            <option value="0000b8a0a0f80000">y</option>
+            <option value="00c8a8a898000000">z</option>
+          </select>
+        </div>
+        <br class="hidden-xs">
+
+        <div class="form-group">
+          <label data-i18n="NUMBER">Number: </label>
+          <select id="num" class="changeCode form-control">
+            <option></option>
+            <option value="0000fe8282fe0000">0</option>
+            <option value="00000082fe800000">1</option>
+            <option value="0000f292929e0000">2</option>
+            <option value="0000929292fe0000">3</option>
+            <option value="00001e1010fe0000">4</option>
+            <option value="00009e9292f20000">5</option>
+            <option value="0000fe9292f20000">6</option>
+            <option value="0000020202fe0000">7</option>
+            <option value="0000fe9292fe0000">8</option>
+            <option value="00009e9292fe0000">9</option>
+            <option value="82fe8000fe82fe00">10</option>
+            <option value="82fe800082fe8000">11</option>
+            <option value="82fe8000f2929e00">12</option>
+            <option value="82fe80009292fe00">13</option>
+            <option value="82fe80001e10fe00">14</option>
+            <option value="82fe80009e92f200">15</option>
+            <option value="82fe8000fe92f200">16</option>
+            <option value="82fe80000202fe00">17</option>
+            <option value="82fe8000fe92fe00">18</option>
+            <option value="82fe80009e92fe00">19</option>
+            <option value="f2929e00fe82fe00">20</option>
+            <option value="f2929e0082fe8000">21</option>
+            <option value="f2929e00f2929e00">22</option>
+            <option value="f2929e009292fe00">23</option>
+            <option value="f2929e001e10fe00">24</option>
+            <option value="f2929e009e92f200">25</option>
+            <option value="f2929e00fe92f200">26</option>
+            <option value="f2929e000202fe00">27</option>
+            <option value="f2929e00fe92fe00">28</option>
+            <option value="f2929e009e92fe00">29</option>
+            <option value="9292fe00fe82fe00">30</option>
+            <option value="9292fe0082fe8000">31</option>
+            <option value="9292fe00f2929e00">32</option>
+            <option value="9292fe009292fe00">33</option>
+            <option value="9292fe001e10fe00">34</option>
+            <option value="9292fe009e92f200">35</option>
+            <option value="9292fe00fe92f200">36</option>
+            <option value="9292fe000202fe00">37</option>
+            <option value="9292fe00fe92fe00">38</option>
+            <option value="9292fe009e92fe00">39</option>
+            <option value="1e10fe00fe82fe00">40</option>
+            <option value="1e10fe0082fe8000">41</option>
+            <option value="1e10fe00f2929e00">42</option>
+            <option value="1e10fe009292fe00">43</option>
+            <option value="1e10fe001e10fe00">44</option>
+            <option value="1e10fe009e92f200">45</option>
+            <option value="1e10fe00fe92f200">46</option>
+            <option value="1e10fe000202fe00">47</option>
+            <option value="1e10fe00fe92fe00">48</option>
+            <option value="1e10fe009e92fe00">49</option>
+            <option value="9e92f200fe82fe00">50</option>
+            <option value="9e92f20082fe8000">51</option>
+            <option value="9e92f200f2929e00">52</option>
+            <option value="9e92f2009292fe00">53</option>
+            <option value="9e92f2001e10fe00">54</option>
+            <option value="9e92f2009e92f200">55</option>
+            <option value="9e92f200fe92f200">56</option>
+            <option value="9e92f2000202fe00">57</option>
+            <option value="9e92f200fe92fe00">58</option>
+            <option value="9e92f2009e92fe00">59</option>
+            <option value="fe92f200fe82fe00">60</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="ICON">icon: </label>
+          <select id="face" class="changeCode form-control">
+            <option></option>
+            <option value="1026464040462610">:) 1</option>
+            <option value="ffd3b3bfbfb3d3ff">:) 2</option>
+            <option value="804c2c20202c4c80">:(</option>
+            <option value="316aaaa4a4aa6a31">XD</option>
+            <option value="914a444040444a91">&gt;_&lt;</option>
+            <option value="4525252020252545">=_=</option>
+            <option value="080c0effff0e0c08">↑</option>
+            <option value="103070ffff707010">↓</option>
+            <option value="183c7eff18181818">←</option>
+            <option value="18181818ff7e3c18">→</option>
+            <option value="0c1e3e7c3e1e0c00">♥</option>
+            <option value="0c12224422120c00">♡</option>
+            <option value="3c4281818181423c">○</option>
+            <option value="00292a2cf82c2a29">￥</option>
+            <option value="8142241818244281">Χ</option>
+            <option value="007e424242427e00">□</option>
+            <option value="0814224122140800">◇</option>
+            <option value="004e51f1514e0000">♀</option>
+            <option value="70d888d87905030f">♂</option>
+            <option value="0000007f00000000">︱</option>
+            <option value="0808080808080800">—</option>
+            <option value="4020100804020100">╱</option>
+            <option value="0102040810204000">＼</option>
+            <option value="925438fe38549200">米</option>
+            <option value="82f282fe92929200">正</option>
+            <option value="ff89f79191f789ff">囧</option>
+          </select>
+        </div>
+        <br class="hidden-xs">
+
+        <div class="matrix">
+          <div class="a box">
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+          </div>
+          <div class="a box">
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+          </div>
+          <div class="a box">
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+          </div>
+          <div class="a box">
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+          </div>
+          <div class="a box">
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+          </div>
+          <div class="a box">
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+          </div>
+          <div class="a box">
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+          </div>
+          <div class="a box">
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+            <div class="b box"></div>
+          </div>
+        </div> <!-- /.matrix --> 
+      </div> <!-- /.panel-body -->
+    </div> <!-- /.panel -->
+  </div> <!-- /.content -->
+
+  <div class="qrcode hiddex-sm hidden-xs well">
+    <span data-i18n="SCAN_QRCODE">掃瞄 QRCode</span>
+    <br>
+    <span data-i18n="TO_USE_ON_MOBILE">使用手機操作</span>
+    <img src="qrcode.png">
+  </div>
+  <p>&nbsp;</p>
+  
   <script src="lib/jquery.min.js"></script>
   <script src="lib/clipboard.js"></script>
   <script src="https://webduino.io/components/webduino-js/dist/webduino-all.min.js"></script>
   <script src="https://webduinoio.github.io/webduino-blockly/webduino-blockly.js"></script>
-  <link rel="stylesheet" href="style.css">
-</head>
+  <script src="i18next.min.js"></script>
+  <script src="main.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-<body>
-	<header data-i18n="WEBDUINO_LED_MATRIX_CODE_GENERATOR">
-		Webduino LED 點矩陣代碼產生器
-	</header>
-  <div class="content">
-    <span data-i18n="BOARD">Board：</span><input type="text" id="deviceId" value="" size="5" maxlength="4">
-    <button id="sumit" data-i18n="SUBMIT">送出</button>
-    <span id="ready"></span>
-    <div class="marquee">
-	    <span data-i18n="MARQUEE">跑馬燈：</span><button id="btn-l">往左</button><button id="btn-r">往右</button><button id="btn-stop">停止</button>
-    </div>
-    <br/>
-    <span data-i18n="CODE">代碼：</span><input id="code" value="0000000000000000" size="17" type="text"  maxlength="16">
-    <button id="copy" data-clipboard-target="#code" class="btn" data-i18n="COPY">複製</button>
-    <button id="clear" data-i18n="CLEAR">清除</button>
-    <br/>
-    <span>ABC: </span>
-    <select id="en-big" class="changeCode">
-      <option></option>
-      <option value="00fc262226fc0000">A</option>
-      <option value="00fe929292fc0000">B</option>
-      <option value="007cc68282820000">C</option>
-      <option value="00fe8282c67c0000">D</option>
-      <option value="00fe929292920000">E</option>
-      <option value="00fe121212020000">F</option>
-      <option value="00fe829292f20000">G</option>
-      <option value="00fe101010fe0000">H</option>
-      <option value="008282fe82820000">I</option>
-      <option value="00828282fe020000">J</option>
-      <option value="00fe102844820000">K</option>
-      <option value="00fe808080800000">L</option>
-      <option value="00fe02fc02fe0000">M</option>
-      <option value="00fe0c30c0fe0000">N</option>
-      <option value="007cc682c67c0000">O</option>
-      <option value="00fe2222223e0000">P</option>
-      <option value="007cc6a246bc0000">Q</option>
-      <option value="00fe2262e2be0000">R</option>
-      <option value="009e929292f20000">S</option>
-      <option value="000202fe02020000">T</option>
-      <option value="00fe808080fe0000">U</option>
-      <option value="003e60c0603e0000">V</option>
-      <option value="00fe80fe80fe0000">W</option>
-      <option value="00c66c106cc60000">X</option>
-      <option value="000e18f0180e0000">Y</option>
-      <option value="00c2a2928a860000">Z</option>
-    </select>
-    <span>abc: </span>
-    <select id="en-small" class="changeCode">
-      <option></option>
-      <option value="00f08888f8800000">a</option>
-      <option value="00fe9090f0000000">b</option>
-      <option value="00f0909090000000">c</option>
-      <option value="0000f09090fe0000">d</option>
-      <option value="00f8a8a8a8b80000">e</option>
-      <option value="000008fe0a000000">f</option>
-      <option value="0000bca4a4fc0000">g</option>
-      <option value="00fe1010f0000000">h</option>
-      <option value="000000f400000000">i</option>
-      <option value="000080f400000000">j</option>
-      <option value="00fe205088000000">k</option>
-      <option value="000000fe00000000">l</option>
-      <option value="00f010f010f00000">m</option>
-      <option value="00f01010f0000000">n</option>
-      <option value="00f09090f0000000">o</option>
-      <option value="00fc24243c000000">p</option>
-      <option value="003c2424fc800000">q</option>
-      <option value="00f0201000000000">r</option>
-      <option value="00b8a8a8e8000000">s</option>
-      <option value="0004fe8400000000">t</option>
-      <option value="00f08080f0000000">u</option>
-      <option value="0070807000000000">v</option>
-      <option value="00f080f080f00000">w</option>
-      <option value="0088502050880000">x</option>
-      <option value="0000b8a0a0f80000">y</option>
-      <option value="00c8a8a898000000">z</option>
-    </select>
-    <div id="br"></div>
-    <span>123: </span>
-    <select id="num" class="changeCode">
-      <option></option>
-      <option value="0000fe8282fe0000">0</option>
-      <option value="00000082fe800000">1</option>
-      <option value="0000f292929e0000">2</option>
-      <option value="0000929292fe0000">3</option>
-      <option value="00001e1010fe0000">4</option>
-      <option value="00009e9292f20000">5</option>
-      <option value="0000fe9292f20000">6</option>
-      <option value="0000020202fe0000">7</option>
-      <option value="0000fe9292fe0000">8</option>
-      <option value="00009e9292fe0000">9</option>
-      <option value="82fe8000fe82fe00">10</option>
-      <option value="82fe800082fe8000">11</option>
-      <option value="82fe8000f2929e00">12</option>
-      <option value="82fe80009292fe00">13</option>
-      <option value="82fe80001e10fe00">14</option>
-      <option value="82fe80009e92f200">15</option>
-      <option value="82fe8000fe92f200">16</option>
-      <option value="82fe80000202fe00">17</option>
-      <option value="82fe8000fe92fe00">18</option>
-      <option value="82fe80009e92fe00">19</option>
-      <option value="f2929e00fe82fe00">20</option>
-      <option value="f2929e0082fe8000">21</option>
-      <option value="f2929e00f2929e00">22</option>
-      <option value="f2929e009292fe00">23</option>
-      <option value="f2929e001e10fe00">24</option>
-      <option value="f2929e009e92f200">25</option>
-      <option value="f2929e00fe92f200">26</option>
-      <option value="f2929e000202fe00">27</option>
-      <option value="f2929e00fe92fe00">28</option>
-      <option value="f2929e009e92fe00">29</option>
-      <option value="9292fe00fe82fe00">30</option>
-      <option value="9292fe0082fe8000">31</option>
-      <option value="9292fe00f2929e00">32</option>
-      <option value="9292fe009292fe00">33</option>
-      <option value="9292fe001e10fe00">34</option>
-      <option value="9292fe009e92f200">35</option>
-      <option value="9292fe00fe92f200">36</option>
-      <option value="9292fe000202fe00">37</option>
-      <option value="9292fe00fe92fe00">38</option>
-      <option value="9292fe009e92fe00">39</option>
-      <option value="1e10fe00fe82fe00">40</option>
-      <option value="1e10fe0082fe8000">41</option>
-      <option value="1e10fe00f2929e00">42</option>
-      <option value="1e10fe009292fe00">43</option>
-      <option value="1e10fe001e10fe00">44</option>
-      <option value="1e10fe009e92f200">45</option>
-      <option value="1e10fe00fe92f200">46</option>
-      <option value="1e10fe000202fe00">47</option>
-      <option value="1e10fe00fe92fe00">48</option>
-      <option value="1e10fe009e92fe00">49</option>
-      <option value="9e92f200fe82fe00">50</option>
-      <option value="9e92f20082fe8000">51</option>
-      <option value="9e92f200f2929e00">52</option>
-      <option value="9e92f2009292fe00">53</option>
-      <option value="9e92f2001e10fe00">54</option>
-      <option value="9e92f2009e92f200">55</option>
-      <option value="9e92f200fe92f200">56</option>
-      <option value="9e92f2000202fe00">57</option>
-      <option value="9e92f200fe92fe00">58</option>
-      <option value="9e92f2009e92fe00">59</option>
-      <option value="fe92f200fe82fe00">60</option>
-    </select>
-    <span data-i18n="ICON">icon: </span>
-    <select id="face" class="changeCode">
-      <option></option>
-      <option value="1026464040462610">:) 1</option>
-      <option value="ffd3b3bfbfb3d3ff">:) 2</option>
-      <option value="804c2c20202c4c80">:(</option>
-      <option value="316aaaa4a4aa6a31">XD</option>
-      <option value="914a444040444a91">>_<</option>
-      <option value="4525252020252545">=_=</option>
-      <option value="080c0effff0e0c08">↑</option>
-      <option value="103070ffff707010">↓</option>
-      <option value="183c7eff18181818">←</option>
-      <option value="18181818ff7e3c18">→</option>
-      <option value="0c1e3e7c3e1e0c00">♥</option>
-      <option value="0c12224422120c00">♡</option>
-      <option value="3c4281818181423c">○</option>
-      <option value="00292a2cf82c2a29">￥</option>
-      <option value="8142241818244281">Χ</option>
-      <option value="007e424242427e00">□</option>
-      <option value="0814224122140800">◇</option>
-      <option value="004e51f1514e0000">♀</option>
-      <option value="70d888d87905030f">♂</option>
-      <option value="0000007f00000000">︱</option>
-      <option value="0808080808080800">—</option>
-      <option value="4020100804020100">╱</option>
-      <option value="0102040810204000">＼</option>
-      <option value="925438fe38549200">米</option>
-      <option value="82f282fe92929200">正</option>
-      <option value="ff89f79191f789ff">囧</option>
-    </select>
-    <br/>
-    <div class="matrix">
-    	<div class="qrcode">
-    		<span data-i18n="SCAN_QRCODE">掃瞄 QRCode</span><br/><span data-i18n="TO_USE_ON_MOBILE">使用手機操作</span><br/>
-    		<img src="qrcode.jpg">
-    	</div>
-      <div class="a box">
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-      </div>
-      <div class="a box">
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-      </div>
-      <div class="a box">
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-      </div>
-      <div class="a box">
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-      </div>
-      <div class="a box">
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-      </div>
-      <div class="a box">
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-      </div>
-      <div class="a box">
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-      </div>
-      <div class="a box">
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-        <div class="b box"></div>
-      </div>
-    </div>
+    ga('create', 'UA-62202920-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
 </body>
-<script src="i18next.min.js"></script>
-<script src="main.js"></script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-62202920-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
 </html>

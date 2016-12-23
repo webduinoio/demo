@@ -19,23 +19,6 @@ span {
   font-size: 16px;
 }
 
-#br {
-  height: 1px;
-  display: none;
-}
-
-#code,
-#deviceId {
-  display: inline-block;
-  font-size: 20px;
-  margin: 10px 0;
-  outline: none;
-}
-
-#code {
-  margin-top: 0;
-}
-
 #code.red {
   border: 2px solid #f00;
   box-shadow: #f99 0 0 10px;
@@ -52,13 +35,9 @@ button {
   outline: none;
 }
 
-button:active {
-  background: #ddd;
-}
-
 .marquee {
   display: none;
-  margin-bottom: 0;
+  margin: .5em 0;
 }
 
 #ready {
@@ -78,7 +57,6 @@ button:active {
 }
 
 .matrix {
-  position: relative;
   margin-top: 10px;
   text-align: center;
 }
@@ -86,13 +64,18 @@ button:active {
 .qrcode {
   width: 200px;
   position: absolute;
-  top: 0;
-  right: -220px;
+  top: 30%;
+  right: 2%;
   font-size: 15px;
   line-height: 20px;
 }
-.qrcode img{
-  margin-top:5px;
+
+.qrcode img {
+  margin-top: 5px;
+}
+
+.qrcode span {
+  margin-left: 3px;
 }
 
 .box {
@@ -127,23 +110,12 @@ button:active {
   background-position: -50px 0;
 }
 
-@media (max-width:1000px) {
-  .qrcode{
-    display:none;
-  }
-}
 @media (max-width:500px) {
-  #code,
-  #deviceId {
-    font-size: 18px;
-  }
-  button {
-    font-size: 16px;
-  }
   .box {
     width: 45px;
     height: 45px;
   }
+
   .b.click {
     background-position: -45px 0;
   }
@@ -155,36 +127,23 @@ button:active {
     line-height: 48px;
     font-size: 18px;
   }
-  span {
-    font-size: 14px;
-  }
-  #code,
-  #deviceId {
-    font-size: 16px;
-  }
-  button {
-    font-size: 15px;
-  }
-  .changeCode {
-    font-size: 14px;
-  }
+
   .box {
     width: 40px;
     height: 40px;
   }
+
   .b.click {
     background-position: -40px 0;
   }
 }
 
 @media (max-width:380px) {
-  #br {
-    display: block;
-  }
   .box {
     width: 35px;
     height: 35px;
   }
+
   .b.click {
     background-position: -35px 0;
   }
@@ -196,26 +155,12 @@ button:active {
     line-height: 38px;
     font-size: 15px;
   }
-  .content {
-    margin: 0 10px;
-  }
-  span {
-    font-size: 14px;
-  }
-  #code,
-  #deviceId {
-    font-size: 14px;
-  }
-  button {
-    font-size: 14px;
-  }
-  .changeCode {
-    font-size: 13px;
-  }
+
   .box {
     width: 30px;
     height: 30px;
   }
+
   .b.click {
     background-position: -30px 0;
   }
