@@ -2,8 +2,15 @@ $(function() {
 
   var clipboard = new Clipboard('#copy');
 
+  clipboard.on('success', function(e) {
+    $('#copy').text(i18n.t('CODE_COPIED')).attr('disabled', true);
+    setTimeout(function() {
+      $('#copy').text(i18n.t('COPY')).attr('disabled', false);
+    }, 1000);
+  });
+
   var deviceId = $('#deviceId'),
-    sumit = $('#sumit'),
+    connect_btn = $('#connect_btn'),
     ready = $('#ready'),
     marquee = $('.marquee'),
     btnR = $('#btn-r'),
@@ -97,37 +104,35 @@ $(function() {
       $('body').i18n();
   });
 
-  sumit.on('click', function() {
-
-
-      localStorage.boardName = deviceId.val();
-      ready.text('Connecting...');
-      boardReady(deviceId.val(), function(board) {
-        ready.text('Board ready!!');
-        board.samplingInterval = 20;
-        matrix = getMax7219(board, 9, 10, 11);
-        matrix.on(code.val());
-        marquee.slideDown(300);
-        btnR.on('click', function() {
-          _marqueeRight(code.val());
-        });
-        btnL.on('click', function() {
-          _marqueeLeft(code.val());
-        });
-        btnStop.on('click', function() {
-          //matrix.animateStop();
-          clearTimeout(timer);
-          t=0;
-        });
-        d = 1;
-        board.on('error', function(err) {
-          d = 0;
-          ready.text('Board Error!!!!!!');
-          marquee.slideUp(300);
-        });
+  connect_btn.on('click', function() {
+    localStorage.boardName = deviceId.val();
+    ready.text(i18n.t('CONNECTING'));
+    boardReady(deviceId.val(), function(board) {
+      connect_btn.text(i18n.t('CONNECTED')).attr('disabled', true);
+      ready.text(i18n.t('BOARD_READY')).removeClass().addClass('text-success');
+      board.samplingInterval = 20;
+      matrix = getMax7219(board, 9, 10, 11);
+      matrix.on(code.val());
+      marquee.show(300);
+      btnR.on('click', function() {
+        _marqueeRight(code.val());
       });
-
-
+      btnL.on('click', function() {
+        _marqueeLeft(code.val());
+      });
+      btnStop.on('click', function() {
+        //matrix.animateStop();
+        clearTimeout(timer);
+        t=0;
+      });
+      d = 1;
+      board.on('error', function(err) {
+        d = 0;
+        connect_btn.text(i18n.t('CONNECT')).attr('disabled', false);
+        ready.text(i18n.t('BOARD_ERROR')).removeClass().addClass('text-danger');
+        marquee.slideUp(300);
+      });
+    });
   });
 
   $('.b').each(function() {
@@ -174,6 +179,10 @@ $(function() {
     _codeGen('0000000000000000');
     code.val('0000000000000000');
     changeCode.val('');
+    clear.text(i18n.t('CODE_RESET')).attr('disabled', true);
+    setTimeout(function() {
+      clear.text(i18n.t('RESET')).attr('disabled', false);
+    }, 1000);
   });
 
   changeCode.each(function() {
