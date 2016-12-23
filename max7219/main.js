@@ -36,6 +36,39 @@ $(function() {
     deviceId.val(localStorage.boardName);
   }
 
+  var i18nResources = {
+    en: { translation: {
+      "WEBDUINO_LED_MATRIX_CODE_GENERATOR": "Webduino LED Matrix Code Generator",
+      "BOARD": "Board",
+      "SUBMIT": "Submit",
+      "CONNECTING": "Connecting...",
+      "CODE": "Code",
+      "ICON": "Icon: ",
+      "COPY": "Copy",
+      "CLEAR": "Clear",
+      "SCAN_QRCODE": "Scan QRCode",
+      "TO_USE_ON_MOBILE": " to use on mobile"
+    }},
+    'zh-TW': { translation: {
+      "WEBDUINO_LED_MATRIX_CODE_GENERATOR": "Webduino LED 點矩陣代碼產生器",
+      "BOARD": "開發版",
+      "SUBMIT": "送出",
+      "CONNECTING": "連線中⋯",
+      "CODE": "代碼",
+      "ICON": "圖形",
+      "COPY": "複製",
+      "CLEAR": "清除",
+      "SCAN_QRCODE": "掃瞄 QRCode",
+      "TO_USE_ON_MOBILE": "使用手機操作"
+    }}
+  }
+
+  i18n.init({
+    resStore: i18nResources
+  }, function(err, t) {
+      $('body').i18n();
+  });
+
   sumit.on('click', function() {
 
 
