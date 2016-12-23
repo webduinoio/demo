@@ -37,30 +37,58 @@ $(function() {
   }
 
   var i18nResources = {
-    en: { translation: {
-      "WEBDUINO_LED_MATRIX_CODE_GENERATOR": "Webduino LED Matrix Code Generator",
-      "BOARD": "Board",
-      "SUBMIT": "Submit",
-      "CONNECTING": "Connecting...",
-      "CODE": "Code",
-      "ICON": "Icon: ",
-      "COPY": "Copy",
-      "CLEAR": "Clear",
-      "SCAN_QRCODE": "Scan QRCode",
-      "TO_USE_ON_MOBILE": " to use on mobile"
-    }},
-    'zh-TW': { translation: {
-      "WEBDUINO_LED_MATRIX_CODE_GENERATOR": "Webduino LED 點矩陣代碼產生器",
-      "BOARD": "開發版",
-      "SUBMIT": "送出",
-      "CONNECTING": "連線中⋯",
-      "CODE": "代碼",
-      "ICON": "圖形",
-      "COPY": "複製",
-      "CLEAR": "清除",
-      "SCAN_QRCODE": "掃瞄 QRCode",
-      "TO_USE_ON_MOBILE": "使用手機操作"
-    }}
+    en: {
+      translation: {
+        "WEBDUINO_LED_MATRIX_CODE_GENERATOR": "Webduino LED Matrix Code Generator",
+        "BOARD": "Board",
+        "BOARD_READY": "Board ready!",
+        "BOARD_ERROR": "Board error!",
+        "CONNECTING": "Connecting...",
+        "CONNECT": "Connect",
+        "CONNECTED": "Connected",
+        "MARQUEE": "Marquee: ",
+        "MARQUEE_LEFT": "← Left",
+        "MARQUEE_RIGHT": "Right →",
+        "MARQUEE_STOP": "Stop",
+        "CODE": "Code",
+        "ICON": "Icon",
+        "COPY": "Copy",
+        "RESET": "Reset",
+        "UPPERCASE": "Uppercase",
+        "LOWERCASE": "Lowercase",
+        "NUMBER": "Number",
+        "CODE_COPIED": "Code copied!",
+        "CODE_RESET": "Code reset!",
+        "SCAN_QRCODE": "Scan QRCode",
+        "TO_USE_ON_MOBILE": " to use on mobile"
+      }
+    },
+    'zh-TW': {
+      translation: {
+        "WEBDUINO_LED_MATRIX_CODE_GENERATOR": "Webduino LED 點矩陣代碼產生器",
+        "BOARD": "開發版",
+        "BOARD_READY": "開發板待命中！",
+        "BOARD_ERROR": "開發板發生錯誤！",
+        "CONNECTING": "連線中⋯",
+        "CONNECT": "連線",
+        "CONNECTED": "已連線",
+        "MARQUEE": "跑馬燈: ",
+        "MARQUEE_LEFT": "← 向左",
+        "MARQUEE_RIGHT": "向右 →",
+        "MARQUEE_STOP": "停止",
+        "CODE": "代碼",
+        "ICON": "圖形",
+        "COPY": "複製",
+        "RESET": "重設",
+        "UPPERCASE": "大寫字母",
+        "LOWERCASE": "小寫字母",
+        "NUMBER": "數字",
+        "CODE_COPIED": "已複製代碼！",
+        "CODE_RESET": "已重設代碼！",
+        "SCAN_QRCODE": "掃瞄 QRCode",
+        "TO_USE_ON_MOBILE": "使用手機操作"
+      }
+    }
   }
 
   i18n.init({
