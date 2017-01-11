@@ -138,7 +138,7 @@ $(function() {
   $('.b').each(function() {
     $(this).on('click', function() {
       changeCode.val('');
-      var row = $(this).parent('.a').index() - 1;
+      var row = $(this).parent('.a').index();
       var num = 7 - $(this).index();
       var string;
       if ($(this).attr('class').indexOf('click') == -1) {
