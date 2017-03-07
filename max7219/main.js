@@ -15,7 +15,10 @@ $(function() {
     marquee = $('.marquee'),
     btnR = $('#btn-r'),
     btnL = $('#btn-l'),
-    btnStop = $('#btn-stop');
+    btnStop = $('#btn-stop'),
+    pinDin = $('#pinDin'),
+    pinCs = $('#pinCs'),
+    pinClk = $('#pinClk');
 
   var matrix,
     timer,
@@ -41,6 +44,9 @@ $(function() {
 
   if (localStorage.boardName) {
     deviceId.val(localStorage.boardName);
+    pinDin.val(localStorage.pinDin);
+    pinCs.val(localStorage.pinCs);
+    pinClk.val(localStorage.pinClk);
   }
 
   var i18nResources = {
@@ -73,13 +79,13 @@ $(function() {
     'zh-TW': {
       translation: {
         "WEBDUINO_LED_MATRIX_CODE_GENERATOR": "Webduino LED 點矩陣代碼產生器",
-        "BOARD": "開發版",
+        "BOARD": "開發板",
         "BOARD_READY": "開發板待命中！",
         "BOARD_ERROR": "開發板發生錯誤！",
         "CONNECTING": "連線中⋯",
         "CONNECT": "連線",
         "CONNECTED": "已連線",
-        "MARQUEE": "跑馬燈: ",
+        "MARQUEE": "跑馬燈",
         "MARQUEE_LEFT": "← 向左",
         "MARQUEE_RIGHT": "向右 →",
         "MARQUEE_STOP": "停止",
@@ -87,8 +93,8 @@ $(function() {
         "ICON": "圖形",
         "COPY": "複製",
         "RESET": "重設",
-        "UPPERCASE": "大寫字母",
-        "LOWERCASE": "小寫字母",
+        "UPPERCASE": "大寫",
+        "LOWERCASE": "小寫",
         "NUMBER": "數字",
         "CODE_COPIED": "已複製代碼！",
         "CODE_RESET": "已重設代碼！",
@@ -106,12 +112,15 @@ $(function() {
 
   connect_btn.on('click', function() {
     localStorage.boardName = deviceId.val();
+    localStorage.pinDin = pinDin.val();
+    localStorage.pinCs = pinCs.val();
+    localStorage.pinClk = pinClk.val();
     ready.text(i18n.t('CONNECTING'));
     boardReady(deviceId.val(), function(board) {
       connect_btn.text(i18n.t('CONNECTED')).attr('disabled', true);
       ready.text(i18n.t('BOARD_READY')).removeClass().addClass('text-success');
       board.samplingInterval = 20;
-      matrix = getMax7219(board, 9, 10, 11);
+      matrix = getMax7219(board, pinDin.val(), pinCs.val(), pinClk.val());
       matrix.on(code.val());
       marquee.show(300);
       btnR.on('click', function() {
